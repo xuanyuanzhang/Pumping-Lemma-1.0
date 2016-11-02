@@ -1,0 +1,270 @@
+package PumpingLemma;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.ActionEvent;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class RegularLanguage {
+
+	private JFrame frame;
+	private JTextField txtPumpingLemmaFor;
+	private JTextField txtAttack;
+	private JTextField txtDefend;
+	private JTextField AttackInstruction;
+	private JTextField DefendInstruction;
+
+	private List<String> attIns = new ArrayList<String>();
+	boolean a = attIns.add("Create a String longer than n please");
+	boolean b = attIns.add("Then pump y, see what you get");
+	boolean c = attIns.add("");
+	private int attTrack;
+	
+	private List<String> defIns = new ArrayList<String>();
+	boolean d = defIns.add("Pick the length, write it below");
+	boolean e = defIns.add("Partition the String into xyz");
+	boolean f = defIns.add("");
+	private int defTrack;
+	
+	private String length;
+	private String sample;
+	private String x;
+	private String y;
+	private String z;
+	private String finalString;
+	private JTextField txtLength;
+	private JTextField txtRegex;
+	private JTextField txtXIs;
+	private JTextField txtYIs;
+	private JTextField txtZIs;
+	private JTextField txtFinal;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void NewScreen() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RegularLanguage window = new RegularLanguage();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public static void infoBox(String infoMessage, String titleBar){
+		//JOptionPane.showMessageDialog();
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public RegularLanguage() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 636, 399);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		txtPumpingLemmaFor = new JTextField();
+		txtPumpingLemmaFor.setText("Pumping Lemma for regular language");
+		txtPumpingLemmaFor.setBounds(85, 21, 368, 32);
+		frame.getContentPane().add(txtPumpingLemmaFor);
+		txtPumpingLemmaFor.setColumns(10);
+		
+		JEditorPane AttackInput = new JEditorPane();
+		AttackInput.setBounds(50, 216, 106, 32);
+		frame.getContentPane().add(AttackInput);
+		
+		JButton btnAttackFinishMove = new JButton("Finish Move");
+		btnAttackFinishMove.setBounds(21, 99, 141, 35);
+		frame.getContentPane().add(btnAttackFinishMove);
+		
+		btnAttackFinishMove.setEnabled(false);
+		
+		JButton btnDefendFinishMove = new JButton("Finish Move");
+		btnDefendFinishMove.setBounds(419, 99, 141, 35);
+		frame.getContentPane().add(btnDefendFinishMove);
+		
+		btnDefendFinishMove.setEnabled(false);
+		
+		JEditorPane DefendInput = new JEditorPane();
+		DefendInput.setBounds(442, 216, 106, 32);
+		frame.getContentPane().add(DefendInput);
+		
+		btnAttackFinishMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(defTrack==0){
+					if(AttackInput.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Input cannot be empty", "warning", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
+						sample = AttackInput.getText();
+						txtRegex.setText(sample);
+						AttackInput.setText("");
+						defTrack++;
+						DefendInstruction.setText(defIns.get(defTrack));
+						AttackInstruction.setText("");
+						btnAttackFinishMove.setEnabled(false);
+						btnDefendFinishMove.setEnabled(true);
+					}
+				}
+				else if(defTrack==1){
+					if(AttackInput.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Input cannot be empty", "warning", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
+						AttackInput.setText("");
+						defTrack++;
+						DefendInstruction.setText(defIns.get(defTrack));
+						AttackInstruction.setText("");
+						btnAttackFinishMove.setEnabled(false);
+						btnDefendFinishMove.setEnabled(true);
+					}
+				}
+				else{
+					btnDefendFinishMove.setEnabled(false);
+					btnAttackFinishMove.setEnabled(false);
+				}
+			}
+		});
+		
+		btnDefendFinishMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(attTrack==0){
+					if(DefendInput.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Input cannot be empty", "warning", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
+						length = DefendInput.getText();
+						txtLength.setText(length);
+						DefendInput.setText("");
+						AttackInstruction.setText(attIns.get(attTrack));
+						attTrack++;
+						DefendInstruction.setText("");
+						btnAttackFinishMove.setEnabled(true);
+						btnDefendFinishMove.setEnabled(false);
+					}
+				}
+				else if(attTrack==1){
+					if(DefendInput.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Input cannot be empty", "warning", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
+						
+						DefendInput.setText("");
+						AttackInstruction.setText(attIns.get(attTrack));
+						attTrack++;
+						DefendInstruction.setText("");
+						btnAttackFinishMove.setEnabled(true);
+						btnDefendFinishMove.setEnabled(false);
+					}
+				}
+				else{
+					btnDefendFinishMove.setEnabled(false);
+					btnAttackFinishMove.setEnabled(false);
+				}
+			}
+		});
+		
+		txtAttack = new JTextField();
+		txtAttack.setText("Attack");
+		txtAttack.setBounds(64, 62, 68, 32);
+		frame.getContentPane().add(txtAttack);
+		txtAttack.setColumns(10);
+		
+		txtDefend = new JTextField();
+		txtDefend.setText("Defend");
+		txtDefend.setColumns(10);
+		txtDefend.setBounds(456, 62, 74, 32);
+		frame.getContentPane().add(txtDefend);
+		
+		AttackInstruction = new JTextField();
+		AttackInstruction.setBounds(10, 155, 186, 32);
+		frame.getContentPane().add(AttackInstruction);
+		AttackInstruction.setColumns(10);
+		
+		DefendInstruction = new JTextField();
+		DefendInstruction.setColumns(10);
+		DefendInstruction.setBounds(392, 155, 186, 32);
+		frame.getContentPane().add(DefendInstruction);
+		
+		JButton btnBack = new JButton("back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+			}
+		});
+		btnBack.setBounds(437, 282, 141, 35);
+		frame.getContentPane().add(btnBack);
+		
+		JButton btnGetStart = new JButton("Get Start");
+		btnGetStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				defTrack = 0;
+				attTrack = 0;
+				DefendInstruction.setText(defIns.get(defTrack));
+				AttackInstruction.setText("");
+				btnDefendFinishMove.setEnabled(true);
+			}
+		});
+		btnGetStart.setBounds(231, 61, 122, 35);
+		frame.getContentPane().add(btnGetStart);
+		
+		txtLength = new JTextField();
+		txtLength.setText("Pumping length");
+		txtLength.setBounds(257, 100, 68, 32);
+		frame.getContentPane().add(txtLength);
+		txtLength.setColumns(10);
+		
+		txtRegex = new JTextField();
+		txtRegex.setText("String for pumping");
+		txtRegex.setBounds(213, 139, 158, 32);
+		frame.getContentPane().add(txtRegex);
+		txtRegex.setColumns(10);
+		
+		txtXIs = new JTextField();
+		txtXIs.setText("x");
+		txtXIs.setBounds(217, 175, 59, 32);
+		frame.getContentPane().add(txtXIs);
+		txtXIs.setColumns(10);
+		
+		txtYIs = new JTextField();
+		txtYIs.setText("y");
+		txtYIs.setColumns(10);
+		txtYIs.setBounds(266, 216, 59, 32);
+		frame.getContentPane().add(txtYIs);
+		
+		txtZIs = new JTextField();
+		txtZIs.setText("z");
+		txtZIs.setColumns(10);
+		txtZIs.setBounds(312, 253, 59, 32);
+		frame.getContentPane().add(txtZIs);
+		
+		txtFinal = new JTextField();
+		txtFinal.setText("String after pumping");
+		txtFinal.setColumns(10);
+		txtFinal.setBounds(202, 296, 186, 32);
+		frame.getContentPane().add(txtFinal);
+	}
+}

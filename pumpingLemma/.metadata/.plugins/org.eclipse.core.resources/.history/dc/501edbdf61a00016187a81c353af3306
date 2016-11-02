@@ -1,0 +1,160 @@
+package PumpingLemma;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.ActionEvent;
+
+public class RegularLanguage {
+
+	private JFrame frame;
+	private JTextField txtPumpingLemmaFor;
+	private JTextField txtAttack;
+	private JTextField txtDefend;
+	private JTextField AttackInstruction;
+	private JTextField DefendInstruction;
+
+	private List<String> attIns = new ArrayList<String>();
+	boolean a = attIns.add("Create a String please");
+	boolean b = attIns.add("Then pump y, see what you get");
+	private int attTrack;
+	
+	private List<String> defIns = new ArrayList<String>();
+	boolean c = defIns.add("Pick the length, write it below");
+	boolean d = defIns.add("Partition the String into xyz");
+	private int defTrack;
+	/**
+	 * Launch the application.
+	 */
+	public static void NewScreen() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RegularLanguage window = new RegularLanguage();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public RegularLanguage() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 557, 382);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		txtPumpingLemmaFor = new JTextField();
+		txtPumpingLemmaFor.setText("Pumping Lemma for regular language");
+		txtPumpingLemmaFor.setBounds(85, 21, 368, 32);
+		frame.getContentPane().add(txtPumpingLemmaFor);
+		txtPumpingLemmaFor.setColumns(10);
+		
+		JButton btnAttackFinishMove = new JButton("Finish Move");
+		btnAttackFinishMove.setBounds(31, 99, 141, 35);
+		frame.getContentPane().add(btnAttackFinishMove);
+		
+		JButton btnDefendFinishMove = new JButton("Finish Move");
+		btnDefendFinishMove.setBounds(356, 99, 141, 35);
+		frame.getContentPane().add(btnDefendFinishMove);
+		
+		btnAttackFinishMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnDefendFinishMove.setEnabled(true);
+				if(defTrack==0||defTrack==1){
+					DefendInstruction.setText(defIns.get(defTrack));
+					defTrack++;
+					AttackInstruction.setText("");
+				}
+				else{
+					btnDefendFinishMove.setEnabled(false);
+				}
+				btnAttackFinishMove.setEnabled(false);
+			}
+		});
+		
+		btnDefendFinishMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAttackFinishMove.setEnabled(true);
+				if(attTrack==0||attTrack==1){
+					AttackInstruction.setText(attIns.get(attTrack));
+					attTrack++;
+					DefendInstruction.setText("");
+				}
+				else{
+					btnAttackFinishMove.setEnabled(false);
+				}
+				btnDefendFinishMove.setEnabled(false);
+			}
+		});
+		
+		txtAttack = new JTextField();
+		txtAttack.setText("Attack");
+		txtAttack.setBounds(64, 62, 68, 32);
+		frame.getContentPane().add(txtAttack);
+		txtAttack.setColumns(10);
+		
+		txtDefend = new JTextField();
+		txtDefend.setText("Defend");
+		txtDefend.setColumns(10);
+		txtDefend.setBounds(387, 62, 74, 32);
+		frame.getContentPane().add(txtDefend);
+		
+		JEditorPane AttackInput = new JEditorPane();
+		AttackInput.setBounds(50, 216, 106, 32);
+		frame.getContentPane().add(AttackInput);
+		
+		AttackInstruction = new JTextField();
+		AttackInstruction.setBounds(10, 155, 186, 32);
+		frame.getContentPane().add(AttackInstruction);
+		AttackInstruction.setColumns(10);
+		
+		DefendInstruction = new JTextField();
+		DefendInstruction.setColumns(10);
+		DefendInstruction.setBounds(334, 155, 186, 32);
+		frame.getContentPane().add(DefendInstruction);
+		
+		JEditorPane DefendInput = new JEditorPane();
+		DefendInput.setBounds(375, 216, 106, 32);
+		frame.getContentPane().add(DefendInput);
+		
+		JButton btnBack = new JButton("back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+			}
+		});
+		btnBack.setBounds(379, 255, 141, 35);
+		frame.getContentPane().add(btnBack);
+		
+		JButton btnGetStart = new JButton("Get Start");
+		btnGetStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				defTrack = 0;
+				attTrack = 0;
+				DefendInstruction.setText(defIns.get(defTrack));
+				AttackInstruction.setText("");
+				btnDefendFinishMove.setEnabled(true);
+			}
+		});
+		btnGetStart.setBounds(200, 61, 122, 35);
+		frame.getContentPane().add(btnGetStart);
+	}
+}
